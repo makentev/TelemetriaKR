@@ -1,0 +1,92 @@
+<%- include('../partials/header', { currentPage: 'add-maintenance' }) %>
+
+<div class="container mt-4">
+  <h2>Добавить ТО</h2>
+  
+  <% if (typeof error !== 'undefined') { %>
+    <div class="alert alert-danger">
+      <%= error %>
+    </div>
+  <% } %>
+
+  <form method="POST" action="/maintenance/add">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Оборудование</label>
+          <select name="equipment_id" class="form-control" required>
+            <option value="">-- Выберите оборудование --</option>
+            <% equipment.forEach(item => { %>
+              <option value="<%= item.id %>"><%= item.name %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Модель</label>
+          <select name="model_id" class="form-control" required>
+            <option value="">-- Выберите модель --</option>
+            <% models.forEach(model => { %>
+              <option value="<%= model.id %>"><%= model.name %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Дата проведения</label>
+          <input type="date" name="date" class="form-control" required>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Вид ТО</label>
+          <select name="maintenance_type" class="form-control" required>
+            <option value="">-- Выберите вид ТО --</option>
+            <option value="Плановый осмотр">Плановый осмотр</option>
+            <option value="Техническое обслуживание">Техническое обслуживание</option>
+            <option value="Ремонт">Ремонт</option>
+            <option value="Проверка">Проверка</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Использованные запчасти</label>
+          <textarea name="spare_parts" class="form-control" rows="2"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Решение об эксплуатации</label>
+          <select name="decision" class="form-control">
+            <option value="">-- Выберите решение --</option>
+            <option value="Годен к эксплуатации">Годен к эксплуатации</option>
+            <option value="Требуется ремонт">Требуется ремонт</option>
+            <option value="Списать">Списать</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Описание работ</label>
+      <textarea name="work_description" class="form-control" rows="3" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Ответственный</label>
+      <select name="performed_by" class="form-control" required>
+        <option value="">-- Выберите ответственного --</option>
+        <% staff.forEach(person => { %>
+          <option value="<%= person.full_name %>"><%= person.full_name %></option>
+        <% }) %>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Добавить</button>
+      <a href="/maintenance" class="btn btn-secondary">Отмена</a>
+    </div>
+  </form>
+</div>
+
+<%- include('../partials/footer') %>

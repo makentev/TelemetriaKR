@@ -1,0 +1,93 @@
+<%- include('../partials/header', { currentPage: 'maintenance' }) %>
+
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="mb-0">Редактировать техническое обслуживание</h2>
+    </div>
+    
+    <div class="card-body">
+      <% if (typeof error !== 'undefined') { %>
+        <div class="alert alert-danger">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <form method="POST" action="/maintenance/edit/<%= maintenance.id %>">
+        <!-- Оборудование -->
+        <div class="form-group mb-3">
+          <label class="form-label">Оборудование *</label>
+          <select name="equipment_id" class="form-select" required>
+            <option value="">Выберите оборудование</option>
+            <% equipment.forEach(item => { %>
+              <option value="<%= item.id %>" 
+                <%= maintenance.equipment_id == item.id ? 'selected' : '' %>>
+                <%= item.name %>
+              </option>
+            <% }) %>
+          </select>
+        </div>
+        
+        <!-- Дата ТО -->
+        <div class="form-group mb-3">
+          <label class="form-label">Дата ТО *</label>
+          <input type="date" name="date" class="form-control" 
+                value="<%= new Date(maintenance.date).toISOString().split('T')[0] %>" required>
+        </div>
+        
+        <!-- Тип ТО -->
+        <div class="form-group mb-3">
+          <label class="form-label">Вид ТО *</label>
+          <select name="maintenance_type" class="form-select" required>
+            <option value="Плановый осмотр" <%= maintenance.maintenance_type === 'Плановый осмотр' ? 'selected' : '' %>>Плановый осмотр</option>
+            <option value="Техническое обслуживание" <%= maintenance.maintenance_type === 'Техническое обслуживание' ? 'selected' : '' %>>Техническое обслуживание</option>
+            <option value="Ремонт" <%= maintenance.maintenance_type === 'Ремонт' ? 'selected' : '' %>>Ремонт</option>
+            <option value="Проверка" <%= maintenance.maintenance_type === 'Проверка' ? 'selected' : '' %>>Проверка</option>
+          </select>
+        </div>
+        
+        <!-- Описание работ -->
+        <div class="form-group mb-3">
+          <label class="form-label">Описание работ *</label>
+          <textarea name="work_description" class="form-control" rows="4" required><%= maintenance.work_description %></textarea>
+        </div>
+        
+        <!-- Запчасти -->
+        <div class="form-group mb-3">
+          <label class="form-label">Использованные запчасти</label>
+          <input type="text" name="spare_parts" class="form-control" 
+                value="<%= maintenance.spare_parts || '' %>">
+        </div>
+        
+        <!-- Решение -->
+        <div class="form-group mb-3">
+          <label class="form-label">Решение/Рекомендации</label>
+          <input type="text" name="decision" class="form-control" 
+                value="<%= maintenance.decision || '' %>">
+        </div>
+        
+        <!-- Ответственный -->
+        <div class="form-group mb-4">
+          <label class="form-label">Ответственный *</label>
+          <select name="performed_by" class="form-select" required>
+            <option value="">Выберите сотрудника</option>
+            <% staff.forEach(person => { %>
+              <option value="<%= person.full_name %>"
+                <%= maintenance.performed_by === person.full_name ? 'selected' : '' %>>
+                <%= person.full_name %> (<%= person.position %>)
+              </option>
+            <% }) %>
+          </select>
+        </div>
+        
+        <!-- Кнопки -->
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary">Сохранить</button>
+          <a href="/maintenance" class="btn btn-secondary">Отмена</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

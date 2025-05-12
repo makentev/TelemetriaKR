@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Акт ТО №<%= item.id %></title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; }
+    .print-container { max-width: 800px; margin: 0 auto; padding: 20px; }
+    .header { text-align: center; margin-bottom: 30px; }
+    .header h1 { margin-bottom: 5px; }
+    .details { margin-bottom: 20px; }
+    .detail-row { display: flex; margin-bottom: 10px; }
+    .detail-label { font-weight: bold; width: 200px; }
+    .signatures { display: flex; justify-content: space-between; margin-top: 50px; }
+    .signature { width: 250px; border-top: 1px solid #000; padding-top: 5px; }
+    @media print {
+      .no-print { display: none; }
+      body { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="print-container">
+    <div class="header">
+      <h1>Акт технического обслуживания</h1>
+      <p>№ <%= item.id %> от <%= formatDate(item.date) %></p>
+    </div>
+    
+    <div class="details">
+      <div class="detail-row">
+        <div class="detail-label">Оборудование:</div>
+        <div><%= item.equipment_name %></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Модель:</div>
+        <div><%= item.model_name || 'Не указана' %></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Место установки:</div>
+        <div><%= item.location_name || 'Не указано' %></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Вид ТО:</div>
+        <div><%= item.maintenance_type %></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Описание работ:</div>
+        <div><%= item.work_description %></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Использованные запчасти:</div>
+        <div><%= item.spare_parts || 'Не использовались' %></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Решение:</div>
+        <div><%= item.decision || 'Не указано' %></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Ответственный:</div>
+        <div><%= item.performed_by %></div>
+      </div>
+    </div>
+    
+    <div class="signatures">
+      <div class="signature">Выполнил: _________________</div>
+      <div class="signature">Принял: _________________</div>
+    </div>
+    
+    <div class="no-print" style="margin-top: 30px; text-align: center;">
+      <button onclick="window.print()" class="btn btn-primary">Печать</button>
+      <button onclick="window.close()" class="btn btn-secondary">Закрыть</button>
+    </div>
+  </div>
+  
+  <script>
+   
+    window.onload = function() {
+      
+      
+    };
+  </script>
+</body>
+</html>

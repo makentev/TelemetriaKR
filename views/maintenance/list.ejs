@@ -1,0 +1,47 @@
+<%- include('../partials/header', { currentPage: 'maintenance' }) %>
+
+<div class="container mt-4">
+  <h2>Техническое обслуживание</h2>
+  <a href="/maintenance/add" class="btn btn-primary mb-3">
+    <i class="bi bi-plus-circle"></i> Добавить ТО
+  </a>
+  
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Дата</th>
+        <th>Оборудование</th>
+        <th>Модель</th>
+        <th>Вид ТО</th>
+        <th>Описание работ</th>
+        <th>Использованные запчасти</th>
+        <th>Решение</th>
+        <th>Ответственный</th>
+        <th>Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% maintenance.forEach(item => { %>
+        <tr>
+          <td><%= formatDate(item.date) %></td>
+          <td><%= item.equipment_name %></td>
+          <td><%= item.model_name || 'Не указана' %></td>
+          <td><%= item.maintenance_type %></td>
+          <td><%=  item.work_description %></td>
+          <td><%= item.spare_parts || 'Не указаны' %></td>
+          <td><%= item.decision || 'Не указано' %></td>
+          <td><%= item.performed_by %></td>
+          <td class="actions">
+            <a href="/maintenance/edit/<%= item.id %>" class="edit-button">✏️</a>
+            <a href="/maintenance/delete/<%= item.id %>" class="edit-button" method="POST"  onclick="return confirm('Вы уверены, что хотите удалить это ТО?')">🗑️</a>
+            <a href="/maintenance/print/<%= item.id %>" target="_blank" class="edit-button">🖨️</a>
+          </td>
+          
+        </tr>
+       
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/footer') %>

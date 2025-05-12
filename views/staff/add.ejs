@@ -1,0 +1,25 @@
+<%- include('../partials/header') %>
+<div class="staff-form-container">
+  <h2>Добавить сотрудника</h2>
+  <form method="POST" action="/staff/add" class="staff-form">
+    <% if (locals.csrfToken) { %>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <% } %>
+    
+    <div class="form-group">
+      <label for="full_name">ФИО:</label>
+      <input type="text" id="full_name" name="full_name" class="form-control" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="position">Должность:</label>
+      <input type="text" id="position" name="position" class="form-control" required>
+    </div>
+    
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Добавить</button>
+      <a href="/staff" class="btn btn-secondary">Отмена</a>
+    </div>
+  </form>
+</div>
+<%- include('../partials/footer') %>

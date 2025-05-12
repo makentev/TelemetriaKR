@@ -1,0 +1,78 @@
+<%- include('../partials/header', { 
+    title: 'Добавить оборудование',
+    currentPage: 'add-equipment'
+}) %>
+
+<div class="container mt-4">
+  <h2 class="mb-4">Добавить новое оборудование</h2>
+
+  <% if (typeof error !== 'undefined') { %>
+    <div class="alert alert-danger"><%= error %></div>
+  <% } %>
+
+  <form method="POST" action="/equipment/add">
+    <div class="card">
+      <div class="card-body">
+        <div class="mb-3">
+          <label class="form-label">Название оборудования:</label>
+          <input type="text" name="name" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Модель:</label>
+          <select name="model_id" class="form-select" id="model-select">
+            <option value="">-- Выберите модель --</option>
+            <% models.forEach(model => { %>
+              <option value="<%= model.id %>"><%= model.name %></option>
+            <% }); %>
+            <option value="new">-- Добавить новую модель --</option>
+          </select>
+          <input type="text" name="new_model" class="form-control mt-2"
+                 id="new-model-input" style="display: none;"
+                 placeholder="Введите название новой модели">
+        </div>
+        
+
+        <div class="mb-3">
+          <label class="form-label">Количество:</label>
+          <input type="number" name="quantity" class="form-control" value="1" min="1" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Местоположение:</label>
+          <select name="location_id" class="form-select">
+            <option value="">-- Выберите местоположение --</option>
+            <% locations.forEach(location => { %>
+              <option value="<%= location.id %>"><%= location.name %></option>
+            <% }); %>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Описание:</label>
+          <textarea name="description" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary">Добавить</button>
+          <a href="/" class="btn btn-secondary">Отмена</a>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  document.getElementById('model-select').addEventListener('change', function() {
+    const newModelInput = document.getElementById('new-model-input');
+    if (this.value === 'new') {
+      newModelInput.style.display = 'block';
+      newModelInput.required = true;
+    } else {
+      newModelInput.style.display = 'none';
+      newModelInput.required = false;
+    }
+  });
+</script>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,49 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+  <div class="header-with-button">
+    <h2>Список оборудования</h2>
+    <a href="/equipment/add" class="btn btn-primary mb-3">
+      <i class="bi bi-plus-circle"></i>Добавить оборудование
+    </a>
+  </div>
+
+  <table class="equipment-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Название</th>
+        <th>Модель</th>
+        <th>Количество</th>
+        <th>Местоположение</th>
+        <th>Описание</th>
+        <th>Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% equipment.forEach(item => { %>
+        <tr>
+          <td><%= item.id %></td>
+          <td><%= item.name %></td>
+          <td><%= item.model || 'Не указана' %></td>
+          <td><%= item.quantity %></td>
+          <td><%= item.location || 'Не указано' %></td>
+          <td><%= item.description %></td>
+
+          <td class="actions">
+            <a href="/equipment/edit/<%= item.id %>" class="edit-button">✏️</a>
+            <form action="/equipment/delete/<%= item.id %>" method="POST" style="display: inline;">
+              <% if (locals.csrfToken) { %>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <% } %>
+              <button type="submit" class="edit-button" 
+                      onclick="return confirm('Вы уверены, что хотите удалить это оборудование?')">🗑️</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/footer') %>

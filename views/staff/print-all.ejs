@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Список сотрудников</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .print-container { max-width: 800px; margin: 0 auto; padding: 20px; }
+    .header { text-align: center; margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+    .footer { margin-top: 30px; font-size: 0.9em; }
+    @media print {
+      .no-print { display: none; }
+      body { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="print-container">
+    <div class="header">
+      <h1>Список сотрудников</h1>
+      <p>Дата печати: <%= printDate %></p>
+    </div>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>ФИО</th>
+          <th>Должность</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% staffList.forEach((staff, index) => { %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= staff.full_name %></td>
+            <td><%= staff.position %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    
+    <div class="footer">
+      <p>Всего сотрудников: <%= staffList.length %></p>
+    </div>
+    
+    <div class="no-print" style="margin-top: 30px; text-align: center;">
+      <button onclick="window.print()" class="btn btn-primary">Печать</button>
+      <button onclick="window.close()" class="btn btn-secondary">Закрыть</button>
+    </div>
+  </div>
+</body>
+</html>

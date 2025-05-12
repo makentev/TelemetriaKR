@@ -1,0 +1,33 @@
+<%- include('../partials/header') %>
+<h2 class="page-title">Персонал</h2>
+<a href="/staff/add" class="btn btn-primary mb-3">
+  <i class="bi bi-plus-circle"></i>Добавить сотрудника
+  <a href="/staff/print-all" target="_blank" class="btn btn-outline-secondary">
+    <i class="bi bi-printer"></i> Печать списка
+  </a>
+</a>
+<table class="staff-table">
+  <tr>
+    <th>ФИО</th>
+    <th>Должность</th>
+    <th>Действия</th>
+  </tr>
+  <% staff.forEach(person => { %>
+    <tr>
+      <td><%= person.full_name %></td>
+      <td><%= person.position %></td>
+      <td class="actions">
+        <a href="/staff/edit/<%= person.id %>" class="edit-button">✏️</a>
+        <form action="/staff/delete/<%= person.id %>" method="POST" style="display: inline;">
+          <% if (locals.csrfToken) { %>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <% } %>
+          <button type="submit" class="edit-button" 
+                  onclick="return confirm('Вы уверены, что хотите удалить этого сотрудника?')">🗑️</button>
+        </form>
+     
+      </td>
+    </tr>
+  <% }) %>
+</table>
+<%- include('../partials/footer') %>
